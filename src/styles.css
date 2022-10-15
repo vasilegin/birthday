@@ -17,9 +17,11 @@
   }
 
   .empty{
-    height: calc(2em + 10vw);
+    height: calc(1em + 3vw);
   }
 
-  .emoji{
-    size: 100;
+  .age{
+    font-size: calc(1em + 7vw);
+    text-align: center;
+    color: hsl(0, 69%, 47%);
   }
