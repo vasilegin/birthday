@@ -1,37 +1,66 @@
-import React from 'react';
-import './CountDown.css'
+import React, { useRef, useEffect, useState } from "react";
+import TickGroup from "../TickGroup/TickGroup";
+import Tick from "@pqina/flip";
+import "./CountDown.css"
 
-const CountDown = ({ days = 0, hours = 0, minutes = 0, seconds = 0 }) => {
-  const [over, setOver] = React.useState(false);
-  const [[d, h, m, s], setTime] = React.useState([days, hours, minutes, seconds]);
+const CountDown = ({ value }) => {
+  const divRef = useRef();
+  const tickRef = useRef();
 
-  const tick = () => {
-    if (d === 0 && h === 0 && m === 0 && s === 0) {
-      setOver(true);
-    } else if (m === 0 && s === 0) {
-      setTime([d - 1, 23, 59, 59]);
+  const [tickValue, setTickValue] = useState(value);
+
+  useEffect(() => {
+    const didInit = (tick) => {
+      tickRef.current = tick;
+    };
+
+    const currDiv = divRef.current;
+    const tickValue = tickRef.current;
+    Tick.DOM.create(currDiv, {
+      value,
+      didInit
+    });
+    return () => Tick.DOM.destroy(tickValue);
+  }, [value]);
+
+  useEffect(() => {
+    const counter = Tick.count.down(value, {
+      format: ["d", "h", "m", "s"]
+    });
+
+    counter.onupdate = function (value) {
+      setTickValue(value);
+    };
+
+    return () => {
+      counter.timer.stop();
+    };
+  }, [value]);
+
+  useEffect(() => {
+    if (tickRef.current) {
+      tickRef.current.value = {
+        days: tickValue[0],
+        hours: tickValue[1],
+        mins: tickValue[2],
+        secs: tickValue[3]
+      };
     }
-      else if (m === 0 && s === 0) {
-      setTime([d, h - 1, 59, 59]);
-    } else if (s === 0) {
-      setTime([d, h, m - 1, 59]);
-    } else {
-      setTime([d, h, m, s - 1]);
-    }
-  };
-
-  React.useEffect(() => {
-    const timerID = setInterval(() => tick(), 1000);
-    return () => clearInterval(timerID);
-  });
+  }, [tickValue]);
 
   return (
-    <div>
-      <div className='countdown'>
-        {`${d.toString().padStart(3, '0')}:${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`}
-      </div>
-      <div className='con-window'>
-        {over ? "С днем рождения!" : ''}
+    <div className="timer">
+      <div className="tick">
+        <div data-repeat="true" data-layout="horizontal fit">
+          <div className="tick_inr">
+            <div ref={divRef} style={{ display: "flex" }}>
+            <TickGroup TKey = {'days'} label = {"Дни"}/>:
+            <TickGroup TKey = {'hours'} label = {"Часы"}/>:
+            <TickGroup TKey = {'mins'} label = {"Минуты"}/>:
+            <TickGroup TKey = {'secs'} label = {"Секунды"}/>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

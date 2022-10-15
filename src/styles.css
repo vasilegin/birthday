@@ -1,0 +1,25 @@
+.App {
+    font-family: sans-serif;
+    text-align: center;
+    padding: 3em;
+  }
+  
+  img {
+    width: 9em;
+  }
+  
+  .tick {
+    font-size: 3em;
+  }
+  
+  .timer_wrap{
+    font-size: calc(0.05em + 0.6vw);
+  }
+
+  .empty{
+    height: calc(2em + 10vw);
+  }
+
+  .emoji{
+    size: 100;
+  }
