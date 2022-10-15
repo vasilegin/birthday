@@ -12,9 +12,6 @@ let month_of_birthday = date_of_birthday.getMonth();
 var day_of_birthday = date_of_birthday.getDate();
 let next_date_of_birthday = new Date(new Date().getFullYear() + 1, month_of_birthday, day_of_birthday);
 
-
-
-
 function App() {
 return (
   <div className="App">
@@ -27,7 +24,7 @@ return (
     <div className="age">{numToRoman(get_current_age(date_of_birthday))}</div>
     <div className="empty"></div>
     <div className="timer_wrap">
-      <CountDown value = {next_date_of_birthday.toDateString()} />
+      <CountDown value = {next_date_of_birthday.toString()} />
     </div>
   </div>
 );
