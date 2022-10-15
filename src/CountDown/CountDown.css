@@ -1,0 +1,14 @@
+.countdown{
+    line-height: 130px;
+    text-align: center;
+    font-size: calc(2em + 8vw);
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.con-window{
+    line-height: 130px;
+    text-align: center;
+    font-size: 110pt;
+
+}
+
